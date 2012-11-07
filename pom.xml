@@ -123,12 +123,4 @@
       </repository>
     </repositories>
 
-    <distributionManagement>
-        <repository>
-            <id>alepar.ru</id>
-            <name>alepar.ru-releases</name>
-            <url>http://artifactory.alepar.ru/libs-release-local</url>
-        </repository>
-    </distributionManagement>
-
 </project>
