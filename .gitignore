@@ -1,6 +1,7 @@
 
 /out
 /target
+/native
 /.idea/*
 !/.idea/runConfigurations
 *.iml
