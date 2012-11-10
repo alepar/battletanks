@@ -24,7 +24,7 @@ public class OpenGLEngine extends Engine {
         glcanvas.addGLEventListener(new Renderer());
         glcanvas.setSize(960, 720);
 
-        window = new JFrame("[OpenGL] Battle Tanks");
+        window = new JFrame("Battle Tanks");
         window.getContentPane().add(glcanvas);
 
         window.addWindowListener(new WindowAdapter() {
@@ -43,13 +43,16 @@ public class OpenGLEngine extends Engine {
 
     private class Renderer implements GLEventListener {
 
+        private OpenGLFrame frame = new OpenGLFrame();
+
         public void display(GLAutoDrawable gLDrawable) {
             updateModel();
 
             final GL2 gl = gLDrawable.getGL().getGL2();
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
-            drawTo(new OpenGLFrame(gl));
+            frame.setGl(gl);
+            drawTo(frame);
 
             gl.glFlush();
         }
@@ -59,6 +62,9 @@ public class OpenGLEngine extends Engine {
 
             gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             gl.glShadeModel(GL2.GL_FLAT);
+
+            frame.setGl(gl);
+            frame.init();
         }
 
         public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {

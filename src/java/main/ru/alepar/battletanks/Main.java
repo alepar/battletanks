@@ -15,7 +15,7 @@ public class Main {
 
             @Override
             public void stepModel(long nanos) {
-                tank.x = ((int) (nanos / 1000000 / 5)) % 320;
+                tank.x = ((int) (nanos / 1000000 / 20)) % 90;
             }
 
             @Override
