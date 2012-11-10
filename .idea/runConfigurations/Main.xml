@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="JoglDemoMain" type="Application" factoryName="Application">
+  <configuration default="false" name="Main" type="Application" factoryName="Application">
     <extension name="coverage" enabled="false" merge="false" runner="idea">
       <pattern>
         <option name="PATTERN" value="ru.alepar.battletanks.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="ru.alepar.battletanks.JoglDemoMain" />
+    <option name="MAIN_CLASS_NAME" value="ru.alepar.battletanks.Main" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/native" />
@@ -17,7 +17,13 @@
     <option name="PASS_PARENT_ENVS" value="true" />
     <module name="battletanks" />
     <envs />
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="" />
+      <option name="TRANSPORT" value="0" />
+      <option name="LOCAL" value="true" />
+    </RunnerSettings>
     <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Debug" />
     <ConfigurationWrapper RunnerId="Run" />
     <method />
   </configuration>
