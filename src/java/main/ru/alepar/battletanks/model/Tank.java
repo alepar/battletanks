@@ -6,6 +6,7 @@ public class Tank {
 
     public long nanoX;
     public long nanoY;
+    public Direction direction = Direction.RIGHT;
 
     public int x() {
         return (int) (nanoX / TANK_SPEED);

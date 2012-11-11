@@ -56,7 +56,7 @@ class OpenGLFrame implements Frame {
         gl.glColor3f(0, 1.0f, 0);
         gl.glLoadIdentity();
         gl.glTranslatef(tank.x(), tank.y(), 0);
-        gl.glRotatef(0, 0, 0, 1);
+        gl.glRotatef(tank.direction.angle, 0, 0, 1);
         gl.glCallList(lTank);
     }
 }

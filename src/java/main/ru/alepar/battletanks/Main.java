@@ -3,6 +3,7 @@ package ru.alepar.battletanks;
 import ru.alepar.battletanks.engine.core.Controller;
 import ru.alepar.battletanks.engine.core.Frame;
 import ru.alepar.battletanks.engine.opengl.OpenGLEngine;
+import ru.alepar.battletanks.model.Direction;
 import ru.alepar.battletanks.model.Tank;
 
 import java.awt.event.KeyEvent;
@@ -40,6 +41,7 @@ public class Main {
                     final long delta = nanos - lastFrame;
                     tank.nanoX += kx * delta;
                     tank.nanoY += ky * delta;
+                    tank.direction = Direction.values()[key - 37];
                 }
                 lastFrame = nanos;
             }
