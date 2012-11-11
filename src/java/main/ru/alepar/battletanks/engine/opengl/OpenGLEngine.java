@@ -105,7 +105,7 @@ public class OpenGLEngine extends Engine {
         Collections.sort(pressedKeys, new Comparator<Map.Entry<Integer, KeyState>>() {
             @Override
             public int compare(Map.Entry<Integer, KeyState> left, Map.Entry<Integer, KeyState> right) {
-                return -Long.valueOf(left.getValue().lastPressed).compareTo(right.getValue().lastPressed);
+                return -Long.valueOf(left.getValue().lastTime).compareTo(right.getValue().lastTime);
             }
         });
         final List<Integer> result = new ArrayList<Integer>(pressedKeys.size());
@@ -136,11 +136,8 @@ public class OpenGLEngine extends Engine {
         }
 
         private void handleKeyEvent(KeyState keyState, int state) {
-            if(state == PRESSED) {
-                keyState.lastPressed = System.currentTimeMillis();
-            } else {
-                keyState.lastReleased = System.currentTimeMillis();
-            }
+            keyState.lastTime = System.currentTimeMillis();
+            keyState.lastEvent = state;
         }
     }
 }
