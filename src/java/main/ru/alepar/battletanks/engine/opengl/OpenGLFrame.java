@@ -21,8 +21,6 @@ class OpenGLFrame implements Frame {
     private int createTankList() {
         final int lTank = gl.glGenLists(1);
         gl.glNewList(1, GL2.GL_COMPILE);
-            gl.glLineWidth(2.0f);
-
             // bounding square
             gl.glBegin(GL2.GL_LINE_LOOP);
                 gl.glVertex3i(-5, -5, 0);
@@ -54,6 +52,8 @@ class OpenGLFrame implements Frame {
 
     @Override
     public void drawTank(Tank tank) {
+        gl.glLineWidth(2.0f);
+        gl.glColor3f(0, 1.0f, 0);
         gl.glLoadIdentity();
         gl.glTranslatef(tank.x + 5, 5, 0);
         gl.glRotatef(0, 0, 0, 1);

@@ -8,23 +8,34 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.*;
+
+import static ru.alepar.battletanks.engine.opengl.KeyState.PRESSED;
+import static ru.alepar.battletanks.engine.opengl.KeyState.RELEASED;
 
 public class OpenGLEngine extends Engine {
 
-    private final JFrame window;
     private final GLU glu = new GLU();
+    private final Map<Integer, KeyState> keyStates = new HashMap<Integer, KeyState>();
 
     public OpenGLEngine(Controller controller) {
         super(controller);
         final GLCapabilities capabilities = new GLCapabilities(GLProfile.get(GLProfile.GL2));
 
+        keyStates.put(KeyEvent.VK_LEFT, new KeyState());
+        keyStates.put(KeyEvent.VK_UP, new KeyState());
+        keyStates.put(KeyEvent.VK_RIGHT, new KeyState());
+        keyStates.put(KeyEvent.VK_DOWN, new KeyState());
+
         final GLCanvas glcanvas = new GLCanvas(capabilities);
         glcanvas.addGLEventListener(new Renderer());
+        glcanvas.addKeyListener(new KeyListener());
         glcanvas.setSize(960, 720);
 
-        window = new JFrame("Battle Tanks");
+        final JFrame window = new JFrame("Battle Tanks");
         window.getContentPane().add(glcanvas);
 
         window.addWindowListener(new WindowAdapter() {
@@ -46,7 +57,7 @@ public class OpenGLEngine extends Engine {
         private OpenGLFrame frame = new OpenGLFrame();
 
         public void display(GLAutoDrawable gLDrawable) {
-            updateModel();
+            updateModel(pressedKeys());
 
             final GL2 gl = gLDrawable.getGL().getGL2();
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
@@ -84,4 +95,52 @@ public class OpenGLEngine extends Engine {
         }
     }
 
+    private List<Integer> pressedKeys() {
+        final List<Map.Entry<Integer, KeyState>> pressedKeys = new ArrayList<Map.Entry<Integer, KeyState>>(4);
+        for (Map.Entry<Integer, KeyState> entry : keyStates.entrySet()) {
+            if(entry.getValue().isPressed()) {
+                pressedKeys.add(entry);
+            }
+        }
+        Collections.sort(pressedKeys, new Comparator<Map.Entry<Integer, KeyState>>() {
+            @Override
+            public int compare(Map.Entry<Integer, KeyState> left, Map.Entry<Integer, KeyState> right) {
+                return -Long.valueOf(left.getValue().lastPressed).compareTo(right.getValue().lastPressed);
+            }
+        });
+        final List<Integer> result = new ArrayList<Integer>(pressedKeys.size());
+        for (Map.Entry<Integer, KeyState> pressedKey : pressedKeys) {
+            result.add(pressedKey.getKey());
+        }
+        return result;
+    }
+
+    private class KeyListener implements java.awt.event.KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // ignored
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (KeyEvent.VK_LEFT <= e.getKeyCode() && e.getKeyCode() <= KeyEvent.VK_DOWN) {
+                handleKeyEvent(keyStates.get(e.getKeyCode()), PRESSED);
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (KeyEvent.VK_LEFT <= e.getKeyCode() && e.getKeyCode() <= KeyEvent.VK_DOWN) {
+                handleKeyEvent(keyStates.get(e.getKeyCode()), RELEASED);
+            }
+        }
+
+        private void handleKeyEvent(KeyState keyState, int state) {
+            if(state == PRESSED) {
+                keyState.lastPressed = System.currentTimeMillis();
+            } else {
+                keyState.lastReleased = System.currentTimeMillis();
+            }
+        }
+    }
 }
